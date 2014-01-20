@@ -1,4 +1,4 @@
-# slides-karma-unittest-2013
+# slides-js-build-automation-2014
 
 The best project ever.
 
