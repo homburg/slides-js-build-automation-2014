@@ -1,0 +1,29 @@
+section
+  section
+    h3 Bonus!
+    p Assets
+  section
+    h3 Rails-assets.org
+    pre
+      code.language-ruby(data-trim).
+        # Gemfile
+        source 'https://rails-assets.org'
+        gem 'rails'
+
+        gem 'rails-assets'
+        gem 'rails-assets-angular'
+        gem 'rails-assets-bootstrap'
+
+    pre
+      code.language-js(data-trim).
+        // application.js
+        //= require angular
+        
+        angular.module(...)
+
+    pre
+      code(data-trim).
+        $ bundle install
+        $ rails server
+
+

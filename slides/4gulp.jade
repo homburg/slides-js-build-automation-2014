@@ -3,15 +3,19 @@ section
     h3 Gulp js
     p
       em The streaming build system
+    aside.notes.
+      Streams er en del af vinyl-fs, men det er et centralt og interessant koncept
   section
     h3 Parts
     ul(style="list-style-type: none;")
       li orchestrator
       li node streams
+      li gaze
       li vinyl-fs
 
   section
     h3 orchestrator
+    p Concurrent tasks
     pre
       code(data-trim).
         // takes in a callback so the engine knows when it'll be done
@@ -26,3 +30,18 @@ section
         });
 
         orchestrator.start('one', 'two');
+  section
+    h3 node streams
+    ul(style="list-style-type:none;")
+      li
+        a(href="http://nodejs.org/api/stream") nodejs.org/api/stream.html
+      li
+        a(href="http://nodestreams.com") nodestreams.com
+    pre
+      code(data-trim).
+        readable.on('data', function(chunk) {
+          console.log('got %d bytes of data', chunk.length);
+        })
+        readable.on('end', function() {
+          console.log('there will be no more data.');
+        });
