@@ -1,6 +1,6 @@
 section
-    h3 Build automation / esp. js
-    pre.
+    h3 Build automation / task runners
+    aside.notes.
       - Build automation in general
         - make
         - ninja
@@ -29,5 +29,210 @@ section
           - Flask
       - sources
         - 
+section
+  section
+    h3 GNU Make
+
+    p DSL for compiling <em>files</em>
+
+    pre
+      code(data-trim).
+        -- Makefile
+        hello: hello.c
+
+    pre
+      code(data-trim).
+        $ make hello
+        cc -o hello hello.c
+
+        $ make hello
+        make: 'hello' er tidssvarende
 
 
+  section
+    h3 GNU Make
+
+    p Use file dependencies and modification time
+
+    pre
+      code(data-trim).
+        # Makefile
+        hello: hello.c
+
+    pre
+      code(data-trim).
+        # Catch system calls from process
+        $ strace -e stat "make hello"
+        ...
+        stat("hello", {st_mode=S_IFREG|0775, st_size=8559, ...}) = 0
+        stat("hello.c", {st_mode=S_IFREG|0664, st_size=61, ...}) = 0
+        ...
+    pre
+      code(data-trim).
+        make: 'hello' er tidssvarende.
+
+  section
+    h3 GNU Make 
+    p Rules
+    pre
+      code(data-trim).
+        # Makefile
+        fisk.js: fisk.coffee
+
+        %.js: %.coffee
+          coffee < $< > $@
+
+  section
+    h3 GNU Make
+    pre
+      code(data-trim).
+        JS_FINAL = js/project-name-all.js
+        JS_TARGETS = $(shell find js -name "*.js")
+        JS_MINIFIED = $(JS_TARGETS:.js=.min.js)
+         
+        all: $(JS_FINAL)
+         
+        # Concat
+        $(JS_FINAL): $(JS_MINIFIED)
+          cat $^ >$@
+          rm -f $^
+         
+        %.min.js: %.js
+          uglifyjs -o $@ $<
+          echo >> $@
+         
+        clean:
+          rm -f $(JS_FINAL)
+
+  section(style="text-align: left")
+    h3 Score
+    ul(style="list-style-type: none;")
+      li + ubiquitous
+      li + dependency flow/declarative = brain candy
+      li + file dependencies
+      li +/- DSL
+      li - windows
+      li - frills: log, watch, etc.
+
+  section
+    p Actually build system, but great project "menu" and tool abstraction layer
+    a(href="http://bost.ocks.org/mike/make/") [Why use make]
+    pre
+      code(data-trim).
+        # Makefile
+        .PHONY: migrate js
+
+        migrate:
+          php artisan migrate --env=development
+        
+        js:
+          # grunt build
+          gulp
+
+    pre
+      code(data-trim).
+        $ make migrate
+
+        $ make js
+    
+    p Could also use npm/composer "scripts"
+    pre
+      code(data-trim).
+        $ composer run-script migrate
+    
+section
+  section
+    h3 Many build systems
+    p At least one pr language
+    ul
+      li Rake
+      li Cake
+      li Shake
+      li pmake
+      li nmake
+      li cmake
+      li scons
+
+  section
+    h3 phing, what?
+      pre
+        code(data-trim, style="font-size: 9pt; line-height: 1.3em;").
+          <?xml version="1.0" encoding="UTF-8"?>
+          <project name="FooBar" default="dist">
+              <target name="prepare">
+                  <echo msg="Making directory ./build" />
+                  <mkdir dir="./build" />
+              </target>
+              <target name="build" depends="prepare">
+                  <echo msg="Copying files to build directory..." />
+                  <echo msg="Copying ./about.php to ./build directory..." />
+                  <copy file="./about.php" tofile="./build/about.php" />
+                  <echo msg="Copying ./browsers.php to ./build directory..." />
+                  <copy file="./browsers.php" tofile="./build/browsers.php" />
+                  <echo msg="Copying ./contact.php to ./build directory..." />
+                  <copy file="./contact.php" tofile="./build/contact.php" />
+              </target>
+              <target name="dist" depends="build">
+                  <echo msg="Creating archive..." />
+                  <tar destfile="./build/build.tar.gz" compression="gzip">
+                      <fileset dir="./build">
+                          <include name="*" />
+                      </fileset>
+                  </tar>
+                  <echo msg="Files copied and compressed in build directory OK!" />
+              </target>
+          </project>
+
+  section
+    h3 New
+    p redo, fabricate.py, Tup, ninja, shake
+    p Aim for make, with virtual fs, etc.
+
+section
+  section
+    h3 Grunt, so 2013
+    em The JavaScript task runner
+
+  section
+    h3 Tasks only, no dependencies
+    p Lots of plugins, though
+    p coffee, less, stylus, jade...
+
+  section
+    pre
+      code.language-javascript(data-trim, style="font-size: 10pt; line-height: 1.3em;").
+        // JavaScript
+        module.exports = function(grunt) {
+          grunt.initConfig({
+            pkg: grunt.file.readJSON('package.json'),
+            concat: {
+              options: {
+                separator: ';'
+              },
+              dist: {
+                src: ['src/**/*.js'],
+                dest: 'dist/<%= pkg.name %>.js'
+              }
+            },
+            uglify: {
+              options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+              },
+              dist: {
+                files: {
+                  'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                }
+              }
+            },
+            
+    a(href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee") -> Educas.dk
+
+  section(style="text-align: left;")
+    h3 Score
+    ul(style="list-style-type: none;")
+      li + General purpose language
+      li + Logging
+      li + Watch*
+      li - Not DSL
+      li - No knowledge of dependencies
+      li - Manual incremental builds (everything manual)
