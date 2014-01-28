@@ -98,7 +98,7 @@ $(JS_FINAL): $(JS_MINIFIED)
   
 clean:
   rm -f $(JS_FINAL)
-  </code></pre></section><section style="text-align: left"><h3>Score</h3><ul style="list-style-type: none;"><li>+ ubiquitous</li><li>+ dependency flow/declarative = brain candy</li><li>+ file dependencies</li><li>+/- DSL</li><li>- windows</li><li>- frills: log, watch, etc.</li></ul></section><section><p>Actually build system, but great project "menu" and tool abstraction layer</p><a href="http://bost.ocks.org/mike/make/">[Why use make]</a><pre><code data-trim="data-trim"># Makefile
+  </code></pre></section><section style="text-align: left"><h3>Score</h3><ul style="list-style-type: none;"><li>+ ubiquitous</li><li>+ dependency flow/declarative = brain candy</li><li>+ file dependencies</li><li>+/- DSL</li><li>- windows</li><li>- frills: log, watch, etc.</li><li>- intermediate/temporary files (more names!)</li></ul></section><section><p>Actually build system, but great project "menu" and tool abstraction layer</p><a href="http://bost.ocks.org/mike/make/">[Why use make]</a><pre><code data-trim="data-trim"># Makefile
 .PHONY: migrate js
 
 migrate:
@@ -175,7 +175,7 @@ orchestrator.start('one', 'two');</code></pre></section><section><h3>node stream
 })
 readable.on('end', function() {
   console.log('there will be no more data.');
-});</code></pre></section></section><section><section><h3>Bonus!</h3><p>Assets</p></section><section><h3>Rails-assets.org</h3><pre><code data-trim="data-trim" class="language-ruby"># Gemfile
+});</code></pre></section><section><section><h3>Score</h3><ul style="list-style-type:none;"><li>+ No temporary files</li><li>+ pipeline-oriented</li><li>+ logging</li><li>+ watch</li><li>- incremental builds* (gulp-watch?)</li></ul></section></section></section><section><section><h3>Bonus!</h3><p>Assets</p></section><section><h3>Rails-assets.org</h3><pre><code data-trim="data-trim" class="language-ruby"># Gemfile
 source 'https://rails-assets.org'
 gem 'rails'
 
