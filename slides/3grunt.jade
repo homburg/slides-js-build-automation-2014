@@ -1,0 +1,48 @@
+section
+  section
+    h3 Grunt, so 2013
+    em The JavaScript task runner
+
+  section
+    h3 Tasks only, no dependencies
+    p Lots of plugins, though
+    p coffee, less, stylus, jade...
+
+  section
+    pre
+      code.language-javascript(data-trim, style="font-size: 10pt; line-height: 1.3em;").
+        // JavaScript
+        module.exports = function(grunt) {
+          grunt.initConfig({
+            pkg: grunt.file.readJSON('package.json'),
+            concat: {
+              options: {
+                separator: ';'
+              },
+              dist: {
+                src: ['src/**/*.js'],
+                dest: 'dist/<%= pkg.name %>.js'
+              }
+            },
+            uglify: {
+              options: {
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+              },
+              dist: {
+                files: {
+                  'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                }
+              }
+            },
+            
+    a(href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee") -> Educas.dk
+
+  section(style="text-align: left;")
+    h3 Score
+    ul(style="list-style-type: none;")
+      li + General purpose language
+      li + Logging
+      li + Watch*
+      li - Not DSL
+      li - No knowledge of dependencies
+      li - Manual incremental builds (everything manual)

@@ -1,0 +1,28 @@
+section
+  section
+    h3 Gulp js
+    p
+      em The streaming build system
+  section
+    h3 Parts
+    ul(style="list-style-type: none;")
+      li orchestrator
+      li node streams
+      li vinyl-fs
+
+  section
+    h3 orchestrator
+    pre
+      code(data-trim).
+        // takes in a callback so the engine knows when it'll be done
+        orchestrator.add('one', function (cb) {
+            // do stuff -- async or otherwise
+            cb(err);
+        });
+
+        // identifies a dependent task must be complete before this one begins
+        orchestrator.add('two', ['one'], function () {
+            // task 'one' is done now
+        });
+
+        orchestrator.start('one', 'two');

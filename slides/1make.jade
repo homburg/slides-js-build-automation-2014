@@ -1,0 +1,111 @@
+section
+  section
+    h3 GNU Make
+
+    p DSL for compiling <em>files</em>
+
+    pre
+      code(data-trim).
+        -- Makefile
+        hello: hello.c
+
+    pre
+      code(data-trim).
+        $ make hello
+        cc -o hello hello.c
+
+        $ make hello
+        make: 'hello' er tidssvarende
+
+
+  section
+    h3 GNU Make
+
+    p Use file dependencies and modification time
+
+    pre
+      code(data-trim).
+        # Makefile
+        hello: hello.c
+
+    pre
+      code(data-trim).
+        # Catch system calls from process
+        $ strace -e stat "make hello"
+        ...
+        stat("hello", {st_mode=S_IFREG|0775, st_size=8559, ...}) = 0
+        stat("hello.c", {st_mode=S_IFREG|0664, st_size=61, ...}) = 0
+        ...
+    pre
+      code(data-trim).
+        make: 'hello' er tidssvarende.
+
+  section
+    h3 GNU Make 
+    p Rules
+    pre
+      code(data-trim).
+        # Makefile
+        fisk.js: fisk.coffee
+
+        %.js: %.coffee
+          coffee < $< > $@
+
+  section
+    h3 GNU Make
+    pre
+      code(data-trim).
+        JS_FINAL = js/project-name-all.js
+        JS_TARGETS = $(shell find js -name "*.js")
+        JS_MINIFIED = $(JS_TARGETS:.js=.min.js)
+         
+        all: $(JS_FINAL)
+         
+        # Concat
+        $(JS_FINAL): $(JS_MINIFIED)
+          cat $^ >$@
+          rm -f $^
+         
+        %.min.js: %.js
+          uglifyjs -o $@ $<
+          echo >> $@
+         
+        clean:
+          rm -f $(JS_FINAL)
+
+  section(style="text-align: left")
+    h3 Score
+    ul(style="list-style-type: none;")
+      li + ubiquitous
+      li + dependency flow/declarative = brain candy
+      li + file dependencies
+      li +/- DSL
+      li - windows
+      li - frills: log, watch, etc.
+
+  section
+    p Actually build system, but great project "menu" and tool abstraction layer
+    a(href="http://bost.ocks.org/mike/make/") [Why use make]
+    pre
+      code(data-trim).
+        # Makefile
+        .PHONY: migrate js
+
+        migrate:
+          php artisan migrate --env=development
+        
+        js:
+          # grunt build
+          gulp
+
+    pre
+      code(data-trim).
+        $ make migrate
+
+        $ make js
+    
+    p Could also use npm/composer "scripts"
+    pre
+      code(data-trim).
+        $ composer run-script migrate
+    
