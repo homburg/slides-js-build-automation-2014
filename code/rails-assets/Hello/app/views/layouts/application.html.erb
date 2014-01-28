@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body ng-app="HelloApp" ng-controller="HelloCtrl">
+<div class="container">
+  <div class="row">
+    <h1 ng-bind="message"></h1>
+    <input ng-model="message">
+
+<%= yield %>
+
+  </div>
+</div>
+
+</body>
+</html>
