@@ -136,7 +136,7 @@ $ make js
         <echo msg="Files copied and compressed in build directory OK!" />
     </target>
 </project>
-</code></pre></h3></section><section><h3>New</h3><p>redo, fabricate.py, Tup, ninja, shake</p><p>Aim for make, with virtual fs, etc.</p></section></section><section><section><h3>Grunt, so 2013</h3><em>The JavaScript task runner</em></section><section><h3>Tasks only, no dependencies</h3><p>Lots of plugins, though</p><p>coffee, less, stylus, jade...</p></section><section><pre><code data-trim="data-trim" style="font-size: 10pt; line-height: 1.3em;" class="language-javascript">// JavaScript
+</code></pre></h3></section><section><h3>New</h3><p>redo, fabricate.py, Tup, ninja, shake</p><p>Aim for make, with virtual fs, etc.</p></section></section><section><section><h3>Grunt, so 2013</h3><em>The JavaScript task runner</em></section><section><h3>Tasks only, no dependencies</h3><p>Lots of plugins, though</p><p>coffee, less, stylus, jade...</p></section><section><pre><code data-trim="data-trim" style="font-size: 10pt; line-height: 1.3em;" class="language-js">// JavaScript
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -159,7 +159,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    </code></pre><a href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee">-> Educas.dk</a></section><section style="text-align: left;"><h3>Score</h3><ul style="list-style-type: none;"><li>+ General purpose language</li><li>+ Logging</li><li>+ Watch*</li><li>- Not DSL</li><li>- No knowledge of dependencies</li><li>- Manual incremental builds (everything manual)</li></ul></section></section><section><section><h3>Gulp js</h3><p><em>The streaming build system</em></p></section><section><h3>Parts</h3><ul style="list-style-type: none;"><li>orchestrator</li><li>node streams</li><li>vinyl-fs</li></ul></section><section><h3>orchestrator</h3><pre><code data-trim="data-trim">// takes in a callback so the engine knows when it'll be done
+    </code></pre><a href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee">-> Educas.dk</a></section><section style="text-align: left;"><h3>Score</h3><ul style="list-style-type: none;"><li>+ General purpose language</li><li>+ Logging</li><li>+ Watch*</li><li>- Not DSL</li><li>- No knowledge of dependencies</li><li>- Manual incremental builds (everything manual)</li></ul></section></section><section><section><h3>Gulp js</h3><p><em>The streaming build system</em></p><aside class="notes">Streams er en del af vinyl-fs, men det er et centralt og interessant koncept</aside></section><section><h3>Parts</h3><ul style="list-style-type: none;"><li>orchestrator</li><li>node streams</li><li>gaze</li><li>vinyl-fs</li></ul></section><section><h3>orchestrator</h3><p>Concurrent tasks</p><pre><code data-trim="data-trim">// takes in a callback so the engine knows when it'll be done
 orchestrator.add('one', function (cb) {
     // do stuff -- async or otherwise
     cb(err);
@@ -170,7 +170,26 @@ orchestrator.add('two', ['one'], function () {
     // task 'one' is done now
 });
 
-orchestrator.start('one', 'two');</code></pre></section></section>    </div>
+orchestrator.start('one', 'two');</code></pre></section><section><h3>node streams</h3><ul style="list-style-type:none;"><li><a href="http://nodejs.org/api/stream">nodejs.org/api/stream.html</a></li><li><a href="http://nodestreams.com">nodestreams.com</a></li></ul><pre><code data-trim="data-trim">readable.on('data', function(chunk) {
+  console.log('got %d bytes of data', chunk.length);
+})
+readable.on('end', function() {
+  console.log('there will be no more data.');
+});</code></pre></section></section><section><section><h3>Bonus!</h3><p>Assets</p></section><section><h3>Rails-assets.org</h3><pre><code data-trim="data-trim" class="language-ruby"># Gemfile
+source 'https://rails-assets.org'
+gem 'rails'
+
+gem 'rails-assets'
+gem 'rails-assets-angular'
+gem 'rails-assets-bootstrap'
+</code></pre><pre><code data-trim="data-trim" class="language-js">// application.js
+//= require angular
+
+angular.module(...)
+</code></pre><pre><code data-trim="data-trim">$ bundle install
+$ rails server
+
+</code></pre></section></section>    </div>
 </div>
 
 <script src="lib/js/head.min.js"></script>
