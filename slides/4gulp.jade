@@ -6,6 +6,19 @@ section
     aside.notes.
       Streams er en del af vinyl-fs, men det er et centralt og interessant koncept
   section
+    h3 Hello gulp
+    pre
+      code(data-trim).
+        var gulp = require("gulp"),
+          jade = require("gulp-jade");
+
+        gulp.task("default", function () {
+          gulp.src("app/**/*.jade")
+            .pipe(jade())
+            .pipe(gulp.dest("public/"));
+        });
+
+  section
     h3 Parts
     ul(style="list-style-type: none;")
       li orchestrator
@@ -37,13 +50,35 @@ section
         a(href="http://nodejs.org/api/stream") nodejs.org/api/stream.html
       li
         a(href="http://nodestreams.com") nodestreams.com
+      li
+        a(href="http://github.com/substrack/stream-adventure") github: stream-adventure
     pre
       code(data-trim).
+        # .on('something', ...) "EventEmitter"
         readable.on('data', function(chunk) {
           console.log('got %d bytes of data', chunk.length);
         })
         readable.on('end', function() {
           console.log('there will be no more data.');
+        });
+
+        # Readable stream -> writeable stream
+  section
+    h3 Gaze
+    p File watching (wraps fs.watch)
+    pre
+      code.language-js(data-trim).
+        gulp.watch("app/**/*.coffee", function () {...});
+  section
+    h3 vinyl-fs
+    p Virtual files on streams
+    pre
+      code.language-js(data-trim).
+        new File({
+          cwd: "/home/tbh/educas-dk/",
+          base: "/app/",
+          path: "/app/file.coffee"
+          contents: new Buffer("test = 123")
         });
   section
     section
