@@ -159,7 +159,15 @@ module.exports = function(grunt) {
         }
       }
     },
-    </code></pre><a href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee">-> Educas.dk</a></section><section style="text-align: left;"><h3>Score</h3><ul style="list-style-type: none;"><li>+ General purpose language</li><li>+ Logging</li><li>+ Watch*</li><li>- Not DSL</li><li>- No knowledge of dependencies</li><li>- Manual incremental builds (everything manual)</li></ul></section></section><section><section><h3>Gulp js</h3><p><em>The streaming build system</em></p><aside class="notes">Streams er en del af vinyl-fs, men det er et centralt og interessant koncept</aside></section><section><h3>Parts</h3><ul style="list-style-type: none;"><li>orchestrator</li><li>node streams</li><li>gaze</li><li>vinyl-fs</li></ul></section><section><h3>orchestrator</h3><p>Concurrent tasks</p><pre><code data-trim="data-trim">// takes in a callback so the engine knows when it'll be done
+    </code></pre><a href="http://git.ordbogen.com/nkn/educas-dk/blob/38890da100e02f87e3761eca2fb6c1f5d390ae46/Gruntfile.coffee">-> Educas.dk</a></section><section style="text-align: left;"><h3>Score</h3><ul style="list-style-type: none;"><li>+ General purpose language</li><li>+ Logging</li><li>+ Watch*</li><li>- Not DSL</li><li>- No knowledge of dependencies</li><li>- Manual incremental builds (everything manual)</li></ul></section></section><section><section><h3>Gulp js</h3><p><em>The streaming build system</em></p><aside class="notes">Streams er en del af vinyl-fs, men det er et centralt og interessant koncept</aside></section><section><h3>Hello gulp</h3><pre><code data-trim="data-trim">var gulp = require("gulp"),
+  jade = require("gulp-jade");
+  
+gulp.task("default", function () {
+  gulp.src("app/**/*.jade")
+    .pipe(jade())
+    .pipe(gulp.dest("public/"));
+});
+</code></pre></section><section><h3>Parts</h3><ul style="list-style-type: none;"><li>orchestrator</li><li>node streams</li><li>gaze</li><li>vinyl-fs</li></ul></section><section><h3>orchestrator</h3><p>Concurrent tasks</p><pre><code data-trim="data-trim">// takes in a callback so the engine knows when it'll be done
 orchestrator.add('one', function (cb) {
     // do stuff -- async or otherwise
     cb(err);
@@ -170,11 +178,19 @@ orchestrator.add('two', ['one'], function () {
     // task 'one' is done now
 });
 
-orchestrator.start('one', 'two');</code></pre></section><section><h3>node streams</h3><ul style="list-style-type:none;"><li><a href="http://nodejs.org/api/stream">nodejs.org/api/stream.html</a></li><li><a href="http://nodestreams.com">nodestreams.com</a></li></ul><pre><code data-trim="data-trim">readable.on('data', function(chunk) {
+orchestrator.start('one', 'two');</code></pre></section><section><h3>node streams</h3><ul style="list-style-type:none;"><li><a href="http://nodejs.org/api/stream">nodejs.org/api/stream.html</a></li><li><a href="http://nodestreams.com">nodestreams.com</a></li><li><a href="http://github.com/substrack/stream-adventure">github: stream-adventure</a></li></ul><pre><code data-trim="data-trim"># .on('something', ...) "EventEmitter"
+readable.on('data', function(chunk) {
   console.log('got %d bytes of data', chunk.length);
 })
 readable.on('end', function() {
   console.log('there will be no more data.');
+});
+
+# Readable stream -> writeable stream</code></pre></section><section><h3>Gaze</h3><p>File watching (wraps fs.watch)</p><pre><code data-trim="data-trim" class="language-js">gulp.watch("app/**/*.coffee", function () {...});</code></pre></section><section><h3>vinyl-fs</h3><p>Virtual files on streams</p><pre><code data-trim="data-trim" class="language-js">new File({
+  cwd: "/home/tbh/educas-dk/",
+  base: "/app/",
+  path: "/app/file.coffee"
+  contents: new Buffer("test = 123")
 });</code></pre></section><section><section><h3>Score</h3><ul style="list-style-type:none;"><li>+ No temporary files</li><li>+ pipeline-oriented</li><li>+ logging</li><li>+ watch</li><li>- incremental builds* (gulp-watch?)</li></ul></section></section></section><section><section><h3>Bonus!</h3><p>Assets</p></section><section><h3>Rails-assets.org</h3><pre><code data-trim="data-trim" class="language-ruby"># Gemfile
 source 'https://rails-assets.org'
 gem 'rails'
